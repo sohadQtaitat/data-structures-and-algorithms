@@ -7,7 +7,6 @@ Write a function named getCourseKeys that takes in the courseInfo object and ret
 
 For example: (['name', 'duration', 'topics', 'finalExam']).
 ------------------------------------------------------------------------------------------------ */
-
 const courseInfo = { name: 'Code 301', duration: { dayTrack: '4 weeks', eveningTrack: '8 weeks'},
   topics: ['SMACSS', 'APIs', 'NodeJS', 'SQL', 'jQuery', 'functional programming'],
   finalExam: true };
@@ -24,48 +23,48 @@ Write a function named getHouses that returns a new array containing the names o
 ------------------------------------------------------------------------------------------------ */
 
 let characters = [
-  {
-    name: 'Eddard',
-    spouse: 'Catelyn',
-    children: ['Robb', 'Sansa', 'Arya', 'Bran', 'Rickon'],
-    house: 'Stark'
-  },
-  {
-    name: 'Jon A.',
-    spouse: 'Lysa',
-    children: ['Robin'],
-    house: 'Arryn'
-  },
-  {
-    name: 'Cersei',
-    spouse: 'Robert',
-    children: ['Joffrey', 'Myrcella', 'Tommen'],
-    house: 'Lannister'
-  },
-  {
-    name: 'Daenarys',
-    spouse: 'Khal Drogo',
-    children: ['Drogon', 'Rhaegal', 'Viserion'],
-    house: 'Targaryen'
-  },
-  {
-    name: 'Mace',
-    spouse: 'Alerie',
-    children: ['Margaery', 'Loras'],
-    house: 'Tyrell'
-  },
-  {
-    name: 'Sansa',
-    spouse: 'Tyrion',
-    children: [],
-    house: 'Stark'
-  },
-  {
-    name: 'Jon S.',
-    spouse: null,
-    children: [],
-    house: 'Snow'
-  }
+    {
+        name: 'Eddard',
+        spouse: 'Catelyn',
+        children: ['Robb', 'Sansa', 'Arya', 'Bran', 'Rickon'],
+        house: 'Stark'
+    },
+    {
+        name: 'Jon A.',
+        spouse: 'Lysa',
+        children: ['Robin'],
+        house: 'Arryn'
+    },
+    {
+        name: 'Cersei',
+        spouse: 'Robert',
+        children: ['Joffrey', 'Myrcella', 'Tommen'],
+        house: 'Lannister'
+    },
+    {
+        name: 'Daenarys',
+        spouse: 'Khal Drogo',
+        children: ['Drogon', 'Rhaegal', 'Viserion'],
+        house: 'Targaryen'
+    },
+    {
+        name: 'Mace',
+        spouse: 'Alerie',
+        children: ['Margaery', 'Loras'],
+        house: 'Tyrell'
+    },
+    {
+        name: 'Euron',
+        spouse: null,
+        children: [],
+        house: 'Greyjoy'
+    },
+    {
+        name: 'Jon S.',
+        spouse: null,
+        children: [],
+        house: 'Snow'
+    }
 ];
 
 const getHouses = (arr) => {
@@ -76,6 +75,7 @@ const getHouses = (arr) => {
   return houses;
 };
 
+
 /*------------------------------------------------------------------------------------------------
 CHALLENGE 3
 
@@ -85,21 +85,18 @@ This function should take in an array of data and a character name and return a 
 
 For example:
 hasChildrenValues(characters, 'Cersei') will return true
-hasChildrenValues(characters, 'Eddard') will return false
+hasChildrenValues(characters, 'Sansa') will return false
 ------------------------------------------------------------------------------------------------ */
 
 const hasChildrenValues = (arr, character) => {
-  let hasChildren = true;
-  arr.forEach (element => {
-    if(element.name === character){
-      if(Object.values(element)[2].length === 0){
-        hasChildren = false;
-      } else {
-        hasChildren = true;
-      }
-    }
-  });
-  return hasChildren;
+    for (let i = 0; i < arr.length; i++) {
+        if (Object.values(arr)[i].name === character && (arr)[i].children.length > 0) {
+            console.log(Object.values(arr)[i].name)
+            console.log(arr[i].children.length)
+            return true;
+        }
+    };
+    return false
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -111,17 +108,12 @@ The input and output of this function are the same as the input and output from 
 ------------------------------------------------------------------------------------------------ */
 
 const hasChildrenEntries = (arr, character) => {
-  let hasChildren = true;
-  arr.forEach (element => {
-    if(element.name === character){
-      if(Object.entries(element)[2][1].length === 0){
-        hasChildren = false;
-      } else {
-        hasChildren = true;
-      }
-    }
-  });
-  return hasChildren;
+    for (let i = 0; i < arr.length; i++) {
+        if (Object.entries(arr)[i][1].name === character && (arr)[i].children.length > 0) {
+            return true;
+        }
+    };
+    return false;
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -131,17 +123,15 @@ Write a function named totalCharacters that takes in an array and returns the nu
 ------------------------------------------------------------------------------------------------ */
 
 const totalCharacters = (arr) => {
-  let total = 0;
-  arr.forEach(element => {
-    if (element.name !== null){
-      total +=1;
-    }
-    if (element.spouse !== null){
-      total +=1;
-    }
-    total += element.children.length;
-  });
-  return total;
+    let total = 0;
+    arr.forEach((val, idx) => {
+        total++;
+        if (Object.values(arr)[idx].spouse) {
+            total++
+        }
+        total = total + Object.values(arr)[idx].children.length;
+    });
+    return total
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -153,7 +143,6 @@ All of these objects should be added to an array named "sizes". Return the "size
 
 For example: [{ house: 'Stark', members: 7 }, { house: 'Arryn', members: 3 }, ... ].
 ------------------------------------------------------------------------------------------------ */
-
 const houseSize = (arr) => {
     const sizes = [];
     arr.forEach((val, idx) => {
@@ -215,53 +204,53 @@ Run your tests from the console: jest challenges-06.test.js
 ------------------------------------------------------------------------------------------------ */
 
 describe('Testing challenge 1', () => {
-  test('It should return the keys from an object', () => {
-    expect(getCourseKeys(courseInfo)).toStrictEqual([ 'name', 'duration', 'topics', 'finalExam' ]);
-  });
+    test('It should return the keys from an object', () => {
+        expect(getCourseKeys(courseInfo)).toStrictEqual(['name', 'duration', 'topics', 'finalExam']);
+    });
 });
 
 describe('Testing challenge 2', () => {
-  test('It should return an array of the names of the houses', () => {
-    expect(getHouses(characters)).toStrictEqual([ 'Stark', 'Arryn', 'Lannister', 'Targaryen', 'Tyrell', 'Stark', 'Snow' ]);
-    expect(getHouses(characters).length).toStrictEqual(7);
-  });
+    test('It should return an array of the names of the houses', () => {
+        expect(getHouses(characters)).toStrictEqual(['Stark', 'Arryn', 'Lannister', 'Targaryen', 'Tyrell', 'Greyjoy', 'Snow']);
+        expect(getHouses(characters).length).toStrictEqual(7);
+    });
 });
 
 describe('Testing challenge 3', () => {
-  test('It should return true for characters that have children', () => {
-    expect(hasChildrenValues(characters, 'Daenarys')).toBeTruthy();
-  });
+    test('It should return true for characters that have children', () => {
+        expect(hasChildrenValues(characters, 'Daenarys')).toBeTruthy();
+    });
 
-  test('It should return false to characters who do not have children', () => {
-    expect(hasChildrenValues(characters, 'Sansa')).toBeFalsy();
-  });
+    test('It should return false to characters who do not have children', () => {
+        expect(hasChildrenValues(characters, 'Sansa')).toBeFalsy();
+    });
 });
 
 describe('Testing challenge 4', () => {
-  test('It should return true for characters that have children', () => {
-    expect(hasChildrenEntries(characters, 'Eddard')).toBeTruthy();
-  });
+    test('It should return true for characters that have children', () => {
+        expect(hasChildrenEntries(characters, 'Eddard')).toBeTruthy();
+    });
 
-  test('It should return false to characters who do not have children', () => {
-    expect(hasChildrenEntries(characters, 'Jon S.')).toBeFalsy();
-  });
+    test('It should return false to characters who do not have children', () => {
+        expect(hasChildrenEntries(characters, 'Jon S.')).toBeFalsy();
+    });
 });
 
 describe('Testing challenge 5', () => {
-  test('It should return the number of characters in the array', () => {
-    expect(totalCharacters(characters)).toStrictEqual(27);
-  });
+    test('It should return the number of characters in the array', () => {
+        expect(totalCharacters(characters)).toStrictEqual(26);
+    });
 });
 
 describe('Testing challenge 6', () => {
-  test('It should return an object for each house containing the name and size', () => {
-    expect(houseSize(characters)).toStrictEqual([ { house: 'Stark', members: 7 }, { house: 'Arryn', members: 3 }, { house: 'Lannister', members: 5 }, { house: 'Targaryen', members: 5 }, { house: 'Tyrell', members: 4 }, { house: 'Stark', members: 2 }, { house: 'Snow', members: 1 } ]);
-    expect(houseSize(characters).length).toStrictEqual(7);
-  });
+    test('It should return an object for each house containing the name and size', () => {
+        expect(houseSize(characters)).toStrictEqual([{ house: 'Stark', members: 7 }, { house: 'Arryn', members: 3 }, { house: 'Lannister', members: 5 }, { house: 'Targaryen', members: 5 }, { house: 'Tyrell', members: 4 }, { house: 'Greyjoy', members: 1 }, { house: 'Snow', members: 1 }]);
+        expect(houseSize(characters).length).toStrictEqual(7);
+    });
 });
 
 describe('Testing challenge 7', () => {
-  test('It should not include any deceased spouses', () => {
-    expect(houseSurvivors(characters)).toStrictEqual([ { house: 'Stark', members: 6 }, { house: 'Arryn', members: 2 }, { house: 'Lannister', members: 4 }, { house: 'Targaryen', members: 4 }, { house: 'Tyrell', members: 3 }, { house: 'Stark', members: 2 }, { house: 'Snow', members: 1 } ]);
-  });
+    test('It should not include any deceased spouses', () => {
+        expect(houseSurvivors(characters)).toStrictEqual([{ house: 'Stark', members: 6 }, { house: 'Arryn', members: 2 }, { house: 'Lannister', members: 4 }, { house: 'Targaryen', members: 4 }, { house: 'Tyrell', members: 3 }, { house: 'Greyjoy', members: 1 }, { house: 'Snow', members: 1 }]);
+    });
 });
